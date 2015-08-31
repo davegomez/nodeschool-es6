@@ -8,18 +8,23 @@ var ext = '.' + process.argv[3];
 function fileList(dirPath) {
   return new Promise(function (resolve, reject) {
     fs.readdir(dirPath, function (err, list) {
+      if (err) {
+        return reject(err);
+      }
       resolve(list);
-      reject(err);
     });
   });
 }
 
-fileList(process.argv[2]).then(function (list) {
+var extractFileNames = function extractFileNames(list) {
   return list.filter(function (item) {
     return path.extname(item) === ext;
   });
-}).then(function (list) {
-  list.forEach(function (file) {
+};
+var printFiles = function printFiles(list) {
+  return Promise.all(list.map(function (file) {
     return console.log(file);
-  });
-});
+  }));
+};
+
+fileList(process.argv[2]).then(extractFileNames).then(printFiles)['catch'](console.log.bind(console));

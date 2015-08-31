@@ -7,17 +7,19 @@ function fileList(dirPath) {
   return new Promise(
     function (resolve, reject) {
       fs.readdir(dirPath, function(err, list) {
+        if (err) {
+          return reject(err);
+        }
         resolve(list);
-        reject(err);
       });
     }
   );
 }
 
+const extractFileNames = list => list.filter(item => path.extname(item) === ext);
+const printFiles = list => Promise.all(list.map(file => console.log(file)));
+
 fileList(process.argv[2])
-  .then(function (list) {
-    return list.filter(item => path.extname(item) === ext);
-  })
-  .then(function (list) {
-    list.forEach(file => console.log(file));
-  });
+  .then(extractFileNames)
+  .then(printFiles)
+  .catch(console.log.bind(console));
