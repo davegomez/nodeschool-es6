@@ -1,19 +1,20 @@
 const fs = require('fs');
 
-const countLines = new Promise(
-  function (resolve, reject) {
-
-  }
-);
-
-function countLinesDep(file) {
-  return fs.readFile(file).then(function (res) {
-    return res.toString().split('\n').length -1;
-  });
+function countLines(filePath) {
+  return new Promise(
+    function (resolve, reject) {
+      fs.readFile(filePath, function(err, data) {
+        resolve(data.toString());
+        reject(err);
+      });
+    }
+  );
 }
 
-countLines(process.argv[2]).done(function (lines) {
+countLines(process.argv[2])
+  .then(function (data) {
+    return data.split('\n').length -1;
+  })
+  .then(function (lines) {
     console.log(lines);
-  }, function (err) {
-    console.log(err);
   });
