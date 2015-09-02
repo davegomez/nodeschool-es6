@@ -17,7 +17,7 @@ function fileList(dirPath) {
 }
 
 const extractFileNames = list => list.filter(item => path.extname(item) === ext);
-const printFiles = list => Promise.all(list.map(file => console.log(file)));
+const printFiles = list => Promise.all(console.log(...list));
 
 fileList(process.argv[2])
   .then(extractFileNames)
