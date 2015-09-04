@@ -6,10 +6,8 @@ const ext = `.${process.argv[3]}`;
 function fileList(dirPath) {
   return new Promise(
     function (resolve, reject) {
-      fs.readdir(dirPath, function(err, list) {
-        if (err) {
-          return reject(err);
-        }
+      fs.readdir(dirPath, (err, list) => {
+        if (err) return reject(err);
         resolve(list);
       });
     }
