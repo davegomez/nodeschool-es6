@@ -1,5 +1,7 @@
 'use strict';
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i]; return arr2; } else { return Array.from(arr); } }
+
 var fs = require('fs');
 var path = require('path');
 
@@ -22,9 +24,7 @@ var extractFileNames = function extractFileNames(list) {
   });
 };
 var printFiles = function printFiles(list) {
-  return Promise.all(list.map(function (file) {
-    return console.log(file);
-  }));
+  return Promise.all(console.log.apply(console, _toConsumableArray(list)));
 };
 
 fileList(process.argv[2]).then(extractFileNames).then(printFiles)['catch'](console.log.bind(console));
